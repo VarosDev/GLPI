@@ -6,18 +6,18 @@ glpi_url = "http://YOUR-URL/apirest.php"
 app_token = "YOU-APP-TOKEN"
 user = "YOUR-BASE64-LOGIN:PASSWORD"
 
-def init_session(url, token_app, user, liste):
+def init_session(url, token_app, user):
     headers = {
         'Authorization': 'Basic ' + user,
         'App-Token': token_app
     }
     response = requests.post(url+"/initSession", headers=headers)
     if response.status_code == 200:
-        send_ticket(response.json()["session_token"], url, token_app, liste)
+        send_ticket(response.json()["session_token"], url, token_app)
     else:
         print("ERROR : " + str(response.status_code) + " - " + str(response.json()))
 
-def send_ticket(token_session, url, token_app, liste):
+def send_ticket(token_session, url, token_app):
     headers = {
         "Content-Type": "application/json",
         "Session-Token": token_session,
@@ -55,4 +55,4 @@ def kill_session(token_session, url, token_app):
 
 
 
-init_session(glpi_url, app_token, user, liste_nouveaux_membres)
+init_session(glpi_url, app_token, user)
